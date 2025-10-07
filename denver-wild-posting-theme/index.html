@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World Wide Wildposting</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #111;
+      background: #fff;
+    }
+
+    /* Navigation */
+    .nav-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .nav-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 18px;
+      text-decoration: none;
+      color: #111;
+      cursor: pointer;
+    }
+
+    .nav-logo-text {
+      display: inline-block;
+    }
+
+    .nav-logo-image {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #111;
+      opacity: 0.9;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+    }
+
+    .nav-links .contact-link {
+      font-weight: 600;
+      opacity: 1;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 16px;
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+
+    .hero-content {
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .hero-description {
+      color: #555;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      border-radius: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      padding: 10px 16px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-secondary {
+      border-radius: 8px;
+      border: 1px solid #e5e5e5;
+      padding: 10px 16px;
+      text-decoration: none;
+      color: #111;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .hero-features {
+      color: #444;
+      font-size: 14px;
+      margin-top: 6px;
+      list-style: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    /* Video Container */
+    .video-container {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+      background: linear-gradient(135deg, #ece9ff 0%, #f5f4ff 100%);
+      max-width: 960px;
+      width: 100%;
+      justify-self: center;
+      align-self: start;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Campaigns Section */
+    .campaigns-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 16px;
+    }
+
+    .campaigns-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .campaigns-title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .campaigns-subtitle {
+      color: #555;
+      font-size: 16px;
+    }
+
+    .campaigns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .campaign-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .campaign-card img,
+    .campaign-card video {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .campaign-card-body {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .campaign-card-body h3 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .campaign-card-body p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .campaign-card-body a {
+      justify-self: start;
+      border-radius: 8px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+
+    .campaign-card-body a:hover {
+      opacity: 0.85;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Fallback Image */
+    .fallback-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Page Sections */
+    .page-section {
+      padding: 40px;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 20px;
+      text-align: center;
+      color: #666;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .nav-links {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section {
+        padding: 24px 16px;
+      }
+      
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav-header">
+    <nav class="nav-container">
+      <a href="#" class="nav-logo" aria-label="Walls Can Talk home">
+        <img src="https://ik.imagekit.io/1kunhjtuk/A41C9EDD-371E-4090-8AF7-C8AF4E0E3C27%20-%20Edited%20-%20Edited.png?updatedAt=1759421076847" alt="Walls Can Talk logo" class="nav-logo-image" />
+        <span class="nav-logo-text">Walls Can Talk</span>
+      </a>
+      <div class="nav-links">
+        <a href="#portfolio">Portfolio</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="contact-link">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          World Wide Wildposting. Clean. Precise. Documented.
+        </h1>
+        <p class="hero-description">
+          We plan, print, and place for music, culture, and brands across key cities worldwide. Permits secured where required and daily photo proofs always included.
+        </p>
+        <div class="hero-buttons">
+          <a href="#portfolio" class="btn-primary">View Portfolio</a>
+          <a href="#contact" class="btn-secondary">Contact Us</a>
+        </div>
+        <ul class="hero-features">
+          <li>• Cities: Denver, Fort Collins, + more on request</li>
+          <li>• Service: Wild Posting</li>
+          <li>• Daily Photo Proofs & Map Pins</li>
+        </ul>
+      </div>
+
+      <div class="video-container">
+        <div class="video-wrapper">
+          <iframe
+            id="hero-video"
+            src="https://www.youtube.com/embed/VmiR0JEcaYc?rel=0&modestbranding=1&playsinline=1&mute=1&loop=1&playlist=VmiR0JEcaYc&controls=0&showinfo=0&iv_load_policy=3"
+            title="Campaign video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+            style="border: 0;"
+            onload="this.style.opacity='1'"
+          ></iframe>
+          <div id="video-fallback" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 18px;">
+            Click to play video
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="page-section">
+      <div style="max-width: 960px; margin: 0 auto; padding: 40px 16px;">
+        <h2 style="font-size: 32px; font-weight: 600; margin-bottom: 16px; text-align: center;">Portfolio</h2>
+        <p style="text-align: center; color: #555; margin-bottom: 32px;">See our work in the markets we know best</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; justify-items: center;">
+          <button class="city-btn active" data-city="denver" style="padding: 16px; border: 2px solid transparent; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            Denver
+          </button>
+          <button class="city-btn" data-city="fort-collins" style="padding: 16px; border: 2px solid #e5e5e5; background: #fff; color: #111; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+            Fort Collins
+          </button>
+        </div>
+
+        <div class="portfolio-content" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;"></div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section">
+      <h2>Contact</h2>
+      <p>Contact form will go here...</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Walls Can Talk • Denver</p>
+  </footer>
+
+  <script>
+    // Video autoplay functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('hero-video');
+      const fallback = document.getElementById('video-fallback');
+      
+      // Hide fallback when video loads
+      if (video) {
+        video.addEventListener('load', function() {
+          if (fallback) fallback.style.display = 'none';
+        });
+      }
+      
+      // Try to enable autoplay after user interaction
+      function enableVideoAutoplay() {
+        if (video && fallback) {
+          fallback.style.display = 'none';
+          const currentSrc = video.src;
+          if (!currentSrc.includes('autoplay=1')) {
+            video.src = currentSrc + '&autoplay=1';
+          }
+        }
+      }
+      
+      // Enable autoplay on first user interaction
+      document.addEventListener('click', enableVideoAutoplay, { once: true });
+      document.addEventListener('scroll', enableVideoAutoplay, { once: true });
+      document.addEventListener('touchstart', enableVideoAutoplay, { once: true });
+      
+      // Click on fallback to start video
+      if (fallback) {
+        fallback.addEventListener('click', enableVideoAutoplay);
+      }
+      
+      // Fallback: try autoplay after a short delay
+      setTimeout(enableVideoAutoplay, 2000);
+    });
+    
+    // Portfolio cards with city tabs
+    document.addEventListener('DOMContentLoaded', function() {
+      const cityButtons = document.querySelectorAll('.city-btn');
+      const portfolioContent = document.querySelector('.portfolio-content');
+      if (!portfolioContent) return;
+
+      const cityContent = {
+        'denver': [
+          {
+            title: 'Meta — Downtown Denver',
+            desc: 'Fourteen placements • 2 weeks • Photo proofs daily',
+            image: 'https://ik.imagekit.io/1kunhjtuk/SLS_3891.jpeg?updatedAt=1759374237273',
+            alt: 'Meta takeover in downtown Denver',
+            link: 'meta-campaign-preview.html'
+          }
+        ],
+        'fort-collins': [
+          {
+            title: 'Nardo Wick — Fort Collins',
+            desc: 'Old Town takeover combining posters and motion assets for a dynamic street presence.',
+            image: 'https://ik.imagekit.io/1kunhjtuk/META/IMG_5318.jpeg?updatedAt=1759422584901',
+            alt: 'Nardo Wick campaign posters in Fort Collins',
+            link: 'nardo-wick-campaign-preview.html'
+          }
+        ]
+      };
+
+      cityButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          cityButtons.forEach(btn => {
+            btn.style.background = '#fff';
+            btn.style.color = '#111';
+            btn.style.border = '2px solid #e5e5e5';
+            btn.classList.remove('active');
+          });
+
+          this.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+          this.style.color = '#fff';
+          this.style.border = '2px solid transparent';
+          this.classList.add('active');
+
+          const city = this.getAttribute('data-city');
+          updatePortfolioContent(city);
+        });
+      });
+
+      function createCard(item) {
+        const card = document.createElement('a');
+        card.className = 'portfolio-item';
+        card.href = item.link;
+        const isExternal = /^https?:\/\//.test(item.link);
+        if (isExternal) {
+          card.target = '_blank';
+          card.rel = 'noopener';
+        }
+        card.style.borderRadius = '12px';
+        card.style.overflow = 'hidden';
+        card.style.border = '1px solid #e5e5e5';
+        card.style.display = 'flex';
+        card.style.flexDirection = 'column';
+        card.style.textDecoration = 'none';
+        card.style.color = 'inherit';
+        card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+
+        card.addEventListener('mouseenter', function() {
+          card.style.transform = 'translateY(-2px)';
+          card.style.boxShadow = '0 12px 30px rgba(17, 17, 17, 0.08)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = 'none';
+          card.style.boxShadow = 'none';
+        });
+
+        const media = document.createElement('img');
+        media.src = item.image;
+        media.alt = item.alt || item.title;
+        media.style.width = '100%';
+        media.style.objectFit = 'cover';
+        media.style.aspectRatio = '4 / 3';
+
+        const body = document.createElement('div');
+        body.style.padding = '16px';
+        body.style.display = 'grid';
+        body.style.gap = '8px';
+
+        const title = document.createElement('h3');
+        title.style.fontSize = '18px';
+        title.style.fontWeight = '600';
+        title.style.margin = '0';
+        title.textContent = item.title;
+
+        const desc = document.createElement('p');
+        desc.style.color = '#666';
+        desc.style.fontSize = '14px';
+        desc.style.margin = '0';
+        desc.textContent = item.desc;
+
+        body.appendChild(title);
+        body.appendChild(desc);
+        card.appendChild(media);
+        card.appendChild(body);
+
+        return card;
+      }
+
+      function updatePortfolioContent(city) {
+        portfolioContent.innerHTML = '';
+        const content = cityContent[city] || [];
+
+        content.forEach(item => {
+          if (!item.link) return;
+          portfolioContent.appendChild(createCard(item));
+        });
+      }
+
+      updatePortfolioContent('denver');
+    });
+  </script>
+</body>
+</html>

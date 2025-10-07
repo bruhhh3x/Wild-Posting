@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nardo Wick Campaign in Fort Collins — Local Preview</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #f6f6f6;
+    }
+
+    .preview-container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(17, 17, 17, 0.08);
+    }
+
+    .preview-header {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .preview-header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .preview-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .preview-featured {
+      margin-bottom: 32px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+    }
+
+    .preview-featured img,
+    .preview-featured video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-description {
+      margin-bottom: 32px;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    .campaign-gallery-item video,
+    .campaign-gallery-item img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .preview-container {
+        margin: 16px;
+        padding: 20px;
+      }
+
+      .preview-header h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="preview-container">
+    <header class="preview-header">
+      <h1>Nardo Wick Campaign in Fort Collins</h1>
+      <div class="preview-meta">
+        <span><strong>Client:</strong> Nardo Wick</span>
+        <span><strong>City:</strong> Fort Collins</span>
+        <span><strong>Services:</strong> Wild Posting</span>
+        <span><strong>Year:</strong> 2024</span>
+      </div>
+    </header>
+
+    <figure class="preview-featured" id="preview-featured">
+      <img id="preview-featured-image" src="https://ik.imagekit.io/1kunhjtuk/META/IMG_5318.jpeg?updatedAt=1759422584901" alt="Nardo Wick campaign feature" />
+    </figure>
+
+    <section class="preview-description">
+      <p>
+        This standalone preview recreates the Fort Collins street posting for Nardo Wick using the twelve supplied
+        ImageKit assets. Review the combined photo and video gallery below to see the takeover exactly as it will render
+        on the live campaign page.
+      </p>
+    </section>
+
+    <section class="campaign-gallery">
+      <h3>Campaign Gallery</h3>
+      <div class="campaign-gallery-grid" id="campaign-gallery-grid"></div>
+    </section>
+  </main>
+
+  <script>
+    const galleryAssets = [
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5318.jpeg?updatedAt=1759422584901',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5326.jpeg?updatedAt=1759422592939',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5369.mov/ik-video.mp4?updatedAt=1759422583148',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5322.jpeg?updatedAt=1759422606968',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5345.jpeg?updatedAt=1759422610346',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5311.jpeg?updatedAt=1759422611161',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5308.mov/ik-video.mp4?updatedAt=1759422698004',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5356.jpeg?updatedAt=1759422613275',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5361.jpeg?updatedAt=1759422613378',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5344.mov/ik-video.mp4?updatedAt=1759422706475',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5314.mov/ik-video.mp4?updatedAt=1759422707281',
+      'https://ik.imagekit.io/1kunhjtuk/META/IMG_5321.mov/ik-video.mp4?updatedAt=1759422708977'
+    ];
+
+    const galleryGrid = document.getElementById('campaign-gallery-grid');
+    const featuredFigure = document.getElementById('preview-featured');
+
+    galleryAssets.forEach((assetUrl, index) => {
+      const isVideo = assetUrl.toLowerCase().includes('.mp4');
+      const figure = document.createElement('figure');
+      figure.className = 'campaign-gallery-item';
+
+      if (isVideo) {
+        const video = document.createElement('video');
+        video.src = assetUrl;
+        video.controls = true;
+        video.preload = 'metadata';
+        video.playsInline = true;
+        video.innerText = `Your browser does not support the video tag (asset ${index + 1}).`;
+        figure.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = assetUrl;
+        img.alt = `Nardo Wick campaign photo ${index + 1}`;
+        img.loading = 'lazy';
+        figure.appendChild(img);
+      }
+
+      galleryGrid.appendChild(figure);
+    });
+
+    const firstVideo = galleryAssets.find((asset) => asset.toLowerCase().includes('.mp4'));
+    if (firstVideo) {
+      const videoElement = document.createElement('video');
+      videoElement.src = firstVideo;
+      videoElement.controls = true;
+      videoElement.autoplay = true;
+      videoElement.muted = true;
+      videoElement.loop = true;
+      videoElement.preload = 'metadata';
+      videoElement.playsInline = true;
+
+      featuredFigure.innerHTML = '';
+      featuredFigure.appendChild(videoElement);
+    }
+  </script>
+</body>
+</html>
+
+
