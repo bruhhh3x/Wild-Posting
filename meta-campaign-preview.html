@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meta Campaign in Denver — Local Preview</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #f6f6f6;
+    }
+
+    .preview-container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(17, 17, 17, 0.08);
+    }
+
+    .preview-header {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .preview-header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .preview-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .preview-featured {
+      margin-bottom: 32px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+    }
+
+    .preview-featured img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-description {
+      margin-bottom: 32px;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    .campaign-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .campaign-gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e5e5e5;
+      cursor: zoom-in;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .campaign-gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 28px rgba(17, 17, 17, 0.12);
+    }
+
+    .campaign-gallery-item.is-video {
+      cursor: default;
+    }
+
+    .campaign-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lightbox-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 12, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      z-index: 999;
+    }
+
+    .lightbox-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-stage {
+      max-width: min(96vw, 1080px);
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-stage img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      border: none;
+      background: rgba(17, 17, 17, 0.6);
+      color: #fff;
+      cursor: pointer;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s ease;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-nav:hover {
+      background: rgba(17, 17, 17, 0.85);
+    }
+
+    .lightbox-close {
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .lightbox-nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .lightbox-prev {
+      left: 24px;
+    }
+
+    .lightbox-next {
+      right: 24px;
+    }
+
+    body.lightbox-open {
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .preview-container {
+        margin: 16px;
+        padding: 20px;
+      }
+
+      .preview-header h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="preview-container">
+    <header class="preview-header">
+      <h1>Meta Campaign in Denver</h1>
+      <div class="preview-meta">
+        <span><strong>Client:</strong> Meta</span>
+        <span><strong>City:</strong> Denver</span>
+        <span><strong>Services:</strong> Wild Posting</span>
+        <span><strong>Year:</strong> 2024</span>
+      </div>
+    </header>
+
+    <figure class="preview-featured">
+      <img id="preview-featured-image" src="https://ik.imagekit.io/1kunhjtuk/SLS_3891.jpeg?updatedAt=1759374237273" alt="Meta Campaign in Denver featured" />
+    </figure>
+
+    <section class="preview-description">
+      <p>
+        This lightweight HTML preview reproduces the campaign gallery without needing a WordPress runtime.
+        Scroll through the gallery below to see the fourteen provided ImageKit assets exactly as they will
+        appear on the live campaign page.
+      </p>
+    </section>
+
+    <section class="campaign-gallery">
+      <h3>Campaign Gallery</h3>
+      <div class="campaign-gallery-grid" id="campaign-gallery-grid"></div>
+    </section>
+  </main>
+
+  <div class="lightbox-backdrop" id="lightbox" role="dialog" aria-modal="true" aria-label="Campaign image viewer">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close viewer">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="View previous image">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="View next image">&#8250;</button>
+    <div class="lightbox-stage">
+      <img id="lightbox-image" alt="Campaign detail" />
+    </div>
+  </div>
+
+  <script>
+    const galleryImages = [
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3767.jpeg?updatedAt=1759374242687',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3847.jpeg?updatedAt=1759374242731',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3849.jpeg?updatedAt=1759374242710',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3890.jpeg?updatedAt=1759374242262',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3753.jpeg?updatedAt=1759374241338',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3855.jpeg?updatedAt=1759374239495',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3587.jpeg?updatedAt=1759374237770',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3891.jpeg?updatedAt=1759374237273',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3859.jpeg?updatedAt=1759374236587',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3571.jpeg?updatedAt=1759374231669',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3582.jpeg?updatedAt=1759374230679',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3826.jpeg?updatedAt=1759374211638',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3580.jpeg?updatedAt=1759374204437',
+      'https://ik.imagekit.io/1kunhjtuk/SLS_3637.jpeg?updatedAt=1759374203561'
+    ];
+
+    const galleryGrid = document.getElementById('campaign-gallery-grid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    let currentIndex = -1;
+
+    galleryImages.forEach((assetUrl, index) => {
+      const figure = document.createElement('figure');
+      figure.className = 'campaign-gallery-item';
+
+      const isVideo = assetUrl.toLowerCase().includes('.mp4');
+
+      if (isVideo) {
+        figure.classList.add('is-video');
+        const video = document.createElement('video');
+        video.src = assetUrl;
+        video.controls = true;
+        video.preload = 'metadata';
+        video.playsInline = true;
+        video.innerText = `Your browser does not support the video tag (asset ${index + 1}).`;
+        figure.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = assetUrl;
+        img.alt = `Meta Campaign in Denver photo ${index + 1}`;
+        img.loading = 'lazy';
+        figure.appendChild(img);
+
+        figure.addEventListener('click', () => openLightbox(index));
+      }
+
+      galleryGrid.appendChild(figure);
+    });
+
+    function openLightbox(index) {
+      currentIndex = index;
+      updateLightboxImage();
+      lightbox.classList.add('open');
+      document.body.classList.add('lightbox-open');
+    }
+
+    function closeLightbox() {
+      currentIndex = -1;
+      lightbox.classList.remove('open');
+      document.body.classList.remove('lightbox-open');
+    }
+
+    function showNext(direction = 1) {
+      if (currentIndex === -1) return;
+      const total = galleryImages.length;
+      do {
+        currentIndex = (currentIndex + direction + total) % total;
+      } while (galleryImages[currentIndex].toLowerCase().includes('.mp4'));
+      updateLightboxImage();
+    }
+
+    function updateLightboxImage() {
+      if (currentIndex < 0 || currentIndex >= galleryImages.length) return;
+      const assetUrl = galleryImages[currentIndex];
+      if (assetUrl.toLowerCase().includes('.mp4')) {
+        showNext(1);
+        return;
+      }
+      lightboxImage.src = assetUrl;
+      lightboxImage.alt = `Meta Campaign in Denver photo ${currentIndex + 1}`;
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', () => showNext(-1));
+    lightboxNext.addEventListener('click', () => showNext(1));
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      switch (event.key) {
+        case 'Escape':
+          closeLightbox();
+          break;
+        case 'ArrowLeft':
+          showNext(-1);
+          break;
+        case 'ArrowRight':
+          showNext(1);
+          break;
+      }
+    });
+  </script>
+</body>
+</html>
+
